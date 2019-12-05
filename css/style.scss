@@ -1,0 +1,57 @@
+.background {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup {
+    width: 600px;
+    height: 400px;
+    border: 1px solid brown;
+    border-radius: 10px;
+    padding: 10px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.glyph {
+    font-size: 40px;
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: middle;
+
+    &:hover {
+        border-radius: 5px;
+        background: red;
+        color: white;
+        font-size: 35px;
+        border: 2px dashed white;
+        box-sizing: border-box;
+    }
+}
+
+.string-container {
+    margin-top: 20px;
+}
+
+.string-code, .string-glyphs {
+    font-size: 25px;
+    height: 25px;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 200px;
+    min-width: 200px;
+    display: inline-block;
+}
+
+.code-point + .code-point{
+    margin-left: 7px;
+}

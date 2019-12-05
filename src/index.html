@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+    <meta charset="utf-8">
+    <title>Editable List | Web Components</title>
+</head>
+<body>
+    <form novalidate>
+        <div class="control">
+            <label for="startRange">Start range (hex)</label>
+            <input id="startRange" value="50">
+        </div>
+        <div class="control">
+            <label for="endRange">End range (hex)</label>
+            <input id="endRange" value="100">
+        </div>
+    </form>
+    <button id="show">Show</button>
+    <button id="backspace">Backspace</button>
+    <button id="combining-marks">Combining marks</button>
+    <button id="letters">Letters</button>
+
+    <div>
+        <div class="string-container">
+            Code
+            <div class="string-code"></div>
+        </div>
+        <div class="string-container">
+            Glyphs
+            <div class="string-glyphs"></div>
+        </div>
+    </div>
+
+    <div class="background" style="display: none">
+        <div class="popup">
+            <span class="glyph">A</span>
+            <span class="glyph">s</span>
+        </div>
+    </div>
+</body>
+</html>

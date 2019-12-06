@@ -75,3 +75,31 @@ document.querySelector('#letters').addEventListener('click', () => {
     endRangeEl.value = '100';
     standChar = '';
 });
+
+
+const str1 = UnicodeString.from('😀🀵𝄞𝐁');
+console.log(str1.length);
+
+const str2 = UnicodeString.from('Hello: ');
+console.log(str2.length);
+
+const union = str2.concat(str1);
+console.log(union.length);
+console.log(union.toString());
+
+let a = {
+    inner: {
+        obj1: 'hi',
+        obj2: 'no'
+    },
+    outer: {
+        obj1: 13
+    },
+    //arr: [1,2,3]
+};
+
+function show({arr = [4, 5]}) {
+    const [,,lastElement = -1] = arr;
+    console.log(`arr: ${lastElement}`);
+}
+show(a);

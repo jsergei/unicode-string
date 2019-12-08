@@ -24,7 +24,7 @@ export class UnicodeString {
     }
 
     slice(start, end) {
-
+        return new UnicodeString(this._strArr.slice(start, end));
     }
 
     at(index) {
@@ -33,6 +33,46 @@ export class UnicodeString {
         } else {
             throw new Error('index is out of range');
         }
+    }
+
+    reverse() {
+        throw new Error('not implemented');
+    }
+
+    indexOf(uniStr) {
+        throw new Error('not implemented');
+    }
+
+    includes(uniStr) {
+        throw new Error('not implemented');
+    }
+
+    startsWith(uniStr) {
+        throw new Error('not implemented');
+    }
+
+    endsWith(uniStr) {
+        throw new Error('not implemented');
+    }
+
+    padStart(padStr, length) {
+        throw new Error('not implemented');
+    }
+
+    padEnd(padEnd, length) {
+        throw new Error('not implemented');
+    }
+
+    repeat(times) {
+        throw new Error('not implemented');
+    }
+
+    trimStart() {
+        throw new Error('not implemented');
+    }
+
+    trimEnd() {
+        throw new Error('not implemented');
     }
 
     *[Symbol.iterator]() {

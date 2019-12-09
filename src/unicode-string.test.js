@@ -57,4 +57,73 @@ describe('slice', () => {
         const str6 = str.slice(-5, -1);
         expect(str6.toString()).toEqual('n us');
     });
+
+    test('unicode characters', () => {
+        const str = UnicodeString.from('😀🀵𝄞𝐁');
+        expect(str.slice(1, 3).length).toEqual(2);
+    });
 });
+
+describe('reverse', () => {
+    test('reverse unicode', () => {
+        const str = UnicodeString.from('😀🀵𝄞𝐁');
+        const result = str.reverse();
+
+        expect(str.toString()).toEqual('😀🀵𝄞𝐁');
+        expect(result.toString()).toEqual('𝐁𝄞🀵😀');
+    });
+});
+
+describe('equals', () => {
+    test('simple equality', () => {
+        const str1 = UnicodeString.from('Hello World!');
+        const str2 = UnicodeString.from('Hello World!');
+
+        expect(str1.equals(str2)).toEqual(true);
+    });
+
+    test('simple inequality, unequal length', () => {
+        const str1 = UnicodeString.from('Hello World!');
+        const str2 = UnicodeString.from('Hello');
+
+        expect(str1.equals(str2)).toEqual(false);
+    });
+
+    test('simple inequality, equal length', () => {
+        const str1 = UnicodeString.from('Hello World!');
+        const str2 = UnicodeString.from('Hello World1');
+
+        expect(str1.equals(str2)).toEqual(false);
+    });
+
+    test('unicode inequality', () => {
+        const str1 = UnicodeString.from('😀🀵𝄞𝐁!');
+        const str2 = UnicodeString.from('A🀵𝄞𝐁!');
+
+        expect(str1.equals(str2)).toEqual(false);
+    });
+});
+
+describe('indexOf', () => {
+    test('two smiles in the way', () => {
+        const str1 = UnicodeString.from('Hi 😀😀😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('🀵𝄞');
+
+        expect(str1.indexOf(str2)).toEqual(13);
+    });
+
+    test('no surrogate pairs in the way', () => {
+        const str1 = UnicodeString.from('Hi ABC there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('🀵𝄞');
+
+        expect(str1.indexOf(str2)).toEqual(13);
+    });
+
+    test('no match', () => {
+        const str1 = UnicodeString.from('Hi 😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('Bye');
+
+        expect(str1.indexOf(str2)).toEqual(-1);
+    });
+});
+

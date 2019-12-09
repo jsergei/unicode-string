@@ -28,19 +28,70 @@ export class UnicodeString {
     }
 
     at(index) {
-        if (index >= 0 && index <= this._strArr) {
+        if (index >= 0 && index < this._strArr.length) {
             return this._strArr[index];
         } else {
             throw new Error('index is out of range');
         }
     }
 
-    reverse() {
-        throw new Error('not implemented');
+    equals(str) {
+        // TODO: Consider normalization
+        const uniStr = new UnicodeString(str);
+        if (this.length !== uniStr.length) {
+            return false;
+        }
+        for (let i = 0; i < uniStr.length; i++) {
+            if (this.at(i) !== uniStr.at(i)) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    indexOf(uniStr) {
-        throw new Error('not implemented');
+    reverse() {
+        return new UnicodeString([...this._strArr].reverse());
+    }
+
+    indexOf(pattern) {
+        // TODO: Consider normalization
+        const letters = new Set(...new UnicodeString(pattern));
+        if (this.length === 0 || letters.size === 0 || letters.size > this.length) {
+            return -1;
+        }
+
+        // init the sliding window
+        let errors = 0;
+        for (let i = 0; i < letters.size; i++) {
+            if (!letters.has(this.at(i))) {
+                errors++;
+            }
+        }
+
+        const strMinusPattern = this.length - letters.size;
+        for (let i = 0; i <= strMinusPattern; i++) {
+            // Try to match a substring iff there are no errors
+            if (!errors) {
+                const fullMatch = true;
+                for (let j = i; j < i + letters.size; j++) {
+                    if (this.at(j) !== pattern(j - i)) {
+                        fullMatch = false;
+                        break; // at least one letter is different
+                    }
+                }
+                if (fullMatch) {
+                    return i;
+                }
+            }
+            
+            // Update errors by removing the first letter and adding the next
+            if (i + 1 <= strMinusPattern) {
+                errors -= letters.has(this.at(i)) ? 1 : 0;
+                errors += letters.has(this.at(i + letters.size)) ? 0 : 1;
+            }
+        }
+        
+        return -1;
     }
 
     includes(uniStr) {

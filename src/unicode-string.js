@@ -55,8 +55,12 @@ export class UnicodeString {
 
     indexOf(pattern) {
         // TODO: Consider normalization
-        const letters = new Set(...new UnicodeString(pattern));
-        if (this.length === 0 || letters.size === 0 || letters.size > this.length) {
+        const uniPattern = new UnicodeString(pattern);
+        const letters = new Set(uniPattern);
+        if (letters.size === 0) {
+            return 0;
+        }
+        if (this.length === 0 || uniPattern.length > this.length) {
             return -1;
         }
 
@@ -72,9 +76,9 @@ export class UnicodeString {
         for (let i = 0; i <= strMinusPattern; i++) {
             // Try to match a substring iff there are no errors
             if (!errors) {
-                const fullMatch = true;
+                let fullMatch = true;
                 for (let j = i; j < i + letters.size; j++) {
-                    if (this.at(j) !== pattern(j - i)) {
+                    if (this.at(j) !== uniPattern.at(j - i)) {
                         fullMatch = false;
                         break; // at least one letter is different
                     }
@@ -86,7 +90,7 @@ export class UnicodeString {
             
             // Update errors by removing the first letter and adding the next
             if (i + 1 <= strMinusPattern) {
-                errors -= letters.has(this.at(i)) ? 1 : 0;
+                errors -= letters.has(this.at(i)) ? 0 : 1;
                 errors += letters.has(this.at(i + letters.size)) ? 0 : 1;
             }
         }

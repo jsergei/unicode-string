@@ -119,11 +119,52 @@ describe('indexOf', () => {
         expect(str1.indexOf(str2)).toEqual(13);
     });
 
-    test('no match', () => {
+    test('two equal strings', () => {
+        const str1 = UnicodeString.from('Hi there');
+        const str2 = UnicodeString.from('Hi there');
+
+        expect(str1.indexOf(str2)).toEqual(0);
+    });
+
+    test('match at the start', () => {
+        const str1 = UnicodeString.from('Hi there');
+        const str2 = UnicodeString.from('Hi');
+
+        expect(str1.indexOf(str2)).toEqual(0);
+    });
+
+    test('match at the end', () => {
+        const str1 = UnicodeString.from('Hi there');
+        const str2 = UnicodeString.from('re');
+
+        expect(str1.indexOf(str2)).toEqual(6);
+    });
+
+    test('match: substring is empty', () => {
+        const str1 = UnicodeString.from('Hi 😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('');
+
+        expect(str1.indexOf(str2)).toEqual(0);
+    });
+
+    test('no match: strings are different', () => {
         const str1 = UnicodeString.from('Hi 😀 there 🀵𝄞𝐁');
         const str2 = UnicodeString.from('Bye');
 
         expect(str1.indexOf(str2)).toEqual(-1);
     });
-});
 
+    test('no match: substring is out of bounds in the end', () => {
+        const str1 = UnicodeString.from('Hi 😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('🀵𝄞𝐁xxx');
+
+        expect(str1.indexOf(str2)).toEqual(-1);
+    });
+
+    test('no match: substring is same but longer', () => {
+        const str1 = UnicodeString.from('Hi 😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('Hi 😀 there 🀵𝄞𝐁123');
+
+        expect(str1.indexOf(str2)).toEqual(-1);
+    });
+});

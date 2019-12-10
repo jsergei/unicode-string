@@ -25,8 +25,8 @@ export class UnicodeString {
         return this._strArr.length;
     }
 
-    concat(uniStr) {
-        return new UnicodeString([...this, ...uniStr]);
+    concat(str) {
+        return new UnicodeString([...this, ...UnicodeString.from(str)]);
     }
 
     slice(start, end) {

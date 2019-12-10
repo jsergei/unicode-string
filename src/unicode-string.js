@@ -1,6 +1,8 @@
 export class UnicodeString {
     static from(inputStr) {
-        return new UnicodeString(inputStr);
+        return inputStr && inputStr instanceof UnicodeString
+        ? inputStr
+        : new UnicodeString(inputStr);
     }
 
     constructor(inputStr) {
@@ -37,12 +39,12 @@ export class UnicodeString {
 
     equals(str) {
         // TODO: Consider normalization
-        const uniStr = new UnicodeString(str);
-        if (this.length !== uniStr.length) {
+        str = UnicodeString.from(str);
+        if (this.length !== str.length) {
             return false;
         }
-        for (let i = 0; i < uniStr.length; i++) {
-            if (this.at(i) !== uniStr.at(i)) {
+        for (let i = 0; i < str.length; i++) {
+            if (this.at(i) !== str.at(i)) {
                 return false;
             }
         }
@@ -54,17 +56,17 @@ export class UnicodeString {
         return new UnicodeString([...this._strArr].reverse());
     }
 
-    indexOf(pattern, startPosition = 0) {
+    indexOf(searchString, startPosition = 0) {
         // TODO: Consider normalization
-        const uniPattern = new UnicodeString(pattern);
-        const letters = new Set(uniPattern);
+        searchString = UnicodeString.from(searchString);
+        const letters = new Set(searchString);
         if (startPosition < 0) {
             startPosition = 0;
         }
-        if (uniPattern.length === 0) {
+        if (searchString.length === 0) {
             return startPosition > this.length ? this.length : startPosition;
         }
-        if (this.length === 0 || uniPattern.length > this.length - startPosition) {
+        if (this.length === 0 || searchString.length > this.length - startPosition) {
             return -1;
         }
 
@@ -82,7 +84,7 @@ export class UnicodeString {
             if (!errors) {
                 let fullMatch = true;
                 for (let j = i; j < i + letters.size; j++) {
-                    if (this.at(j) !== uniPattern.at(j - i)) {
+                    if (this.at(j) !== searchString.at(j - i)) {
                         fullMatch = false;
                         break; // at least one letter is different
                     }
@@ -102,16 +104,58 @@ export class UnicodeString {
         return -1;
     }
 
-    includes(uniStr) {
-        return this.indexOf(uniStr) >= 0;
+    includes(searchString, startPosition = 0) {
+        return this.indexOf(searchString, startPosition) >= 0;
     }
 
-    startsWith(uniStr) {
-        throw new Error('not implemented');
+    substring(indexStart, indexEnd) {
+
     }
 
-    endsWith(uniStr) {
-        throw new Error('not implemented');
+    startsWith(searchString, startPosition = 0) {
+        searchString = UnicodeString.from(searchString);
+
+        if (searchString.length === 0) {
+            return true;
+        }
+        if (startPosition < 0) {
+            startPosition = 0;
+        }
+        if (startPosition + searchString.length > this.length) {
+            return false;
+        }
+        
+        for (let i = startPosition; i < startPosition + searchString.length; i++) {
+            if (this.at(i) !== searchString.at(i - startPosition)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    endsWith(searchString, length = this.length) {
+        searchString = UnicodeString.from(searchString);
+
+        if (searchString.length === 0) {
+            return true;
+        }
+        if (length <= 0) {
+            return false;
+        }
+        if (length > this.length) {
+            length = this.length;
+        }
+        if (searchString.length > length) {
+            return false;
+        }
+
+        const startPosition = length - searchString.length;
+        for (let i = 0; i < searchString.length; i++) {
+            if (this.at(startPosition + i) !== searchString.at(i)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     padStart(padStr, length) {

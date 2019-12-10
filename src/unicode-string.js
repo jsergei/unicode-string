@@ -50,30 +50,34 @@ export class UnicodeString {
     }
 
     reverse() {
+        // TODO: Consider normalization because of unicode combining marks
         return new UnicodeString([...this._strArr].reverse());
     }
 
-    indexOf(pattern) {
+    indexOf(pattern, startPosition = 0) {
         // TODO: Consider normalization
         const uniPattern = new UnicodeString(pattern);
         const letters = new Set(uniPattern);
-        if (letters.size === 0) {
-            return 0;
+        if (startPosition < 0) {
+            startPosition = 0;
         }
-        if (this.length === 0 || uniPattern.length > this.length) {
+        if (uniPattern.length === 0) {
+            return startPosition > this.length ? this.length : startPosition;
+        }
+        if (this.length === 0 || uniPattern.length > this.length - startPosition) {
             return -1;
         }
 
         // init the sliding window
         let errors = 0;
-        for (let i = 0; i < letters.size; i++) {
+        for (let i = startPosition; i < startPosition + letters.size; i++) {
             if (!letters.has(this.at(i))) {
                 errors++;
             }
         }
 
         const strMinusPattern = this.length - letters.size;
-        for (let i = 0; i <= strMinusPattern; i++) {
+        for (let i = startPosition; i <= startPosition + strMinusPattern; i++) {
             // Try to match a substring iff there are no errors
             if (!errors) {
                 let fullMatch = true;
@@ -99,7 +103,7 @@ export class UnicodeString {
     }
 
     includes(uniStr) {
-        throw new Error('not implemented');
+        return this.indexOf(uniStr) >= 0;
     }
 
     startsWith(uniStr) {

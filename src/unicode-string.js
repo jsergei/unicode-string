@@ -5,6 +5,10 @@ export class UnicodeString {
         : new UnicodeString(inputStr);
     }
 
+    static get empty() {
+        return new UnicodeString('');
+    }
+
     constructor(inputStr) {
         if (!inputStr) {
             this._strArr = [];
@@ -108,8 +112,24 @@ export class UnicodeString {
         return this.indexOf(searchString, startPosition) >= 0;
     }
 
-    substring(indexStart, indexEnd) {
-
+    substring(indexStart = 0, indexEnd = this.length) {
+        if (indexStart > indexEnd) {
+            [indexStart, indexEnd] = [indexEnd, indexStart];
+        }
+        if (indexStart < 0) {
+            indexStart = 0;
+        }
+        if (indexStart >= this.length) {
+            return UnicodeString.empty;
+        }
+        if (indexEnd > this.length) {
+            indexEnd = this.length;
+        }
+        if (indexEnd <= 0) {
+            return UnicodeString.empty;
+        }
+        
+        return this.slice(indexStart, indexEnd);
     }
 
     startsWith(searchString, startPosition = 0) {
@@ -158,11 +178,25 @@ export class UnicodeString {
         return true;
     }
 
-    padStart(padStr, length) {
-        throw new Error('not implemented');
+    padStart(length, template = ' ') {
+        template = UnicodeString.from(template);
+        if (!length || length <= this.length || template.length === 0) {
+            return this;
+        }
+        let combined = [];
+        const wholeParts = (length - this.length) / template.length;
+        const remaining = (length - this.length) % template.length;
+        for (let whole = 1; whole <= wholeParts; whole++) {
+            combined.push(...template);
+        }
+        if (remaining) {
+            combined.push(...template.substring(0, remaining));
+        }
+        combined.push(...this);
+        return new UnicodeString(combined);
     }
 
-    padEnd(padEnd, length) {
+    padEnd(length, template = ' ') {
         throw new Error('not implemented');
     }
 

@@ -307,3 +307,102 @@ describe('endsWith', () => {
         expect(str1.endsWith(str2, 10)).toEqual(false);
     });
 });
+
+describe('substring', () => {
+    test('check out of bounds indexes', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        let emptyIndexes = [
+            [-20, -10],
+            [-10, -20],
+            [20, 30],
+            [30, 20]
+        ];
+        for (let [s, e] of emptyIndexes) {
+            expect(str1.substring(s, e).length).toEqual(0);
+        }
+    });
+
+    test('check full strings indexes', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        let fullStrIndexes = [
+            [-20, 20],
+            [0, 20],
+            [0, str1.length],
+            [-10, str1.length],
+            [str1.length, 0],
+            [30, 0]
+        ];
+        for (let [s, e] of fullStrIndexes) {
+            expect(str1.substring(s, e).length).toEqual(13);
+        }
+    });
+
+    test('substring within range (at least one)', () => {
+        const str = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        expect(str.substring(10).equals('🀵𝄞𝐁')).toEqual(true);
+        expect(str.substring(10, str.length).equals('🀵𝄞𝐁')).toEqual(true);
+        expect(str.substring(4, 9).equals('there')).toEqual(true);
+        expect(str.substring(9, 4).equals('there')).toEqual(true);
+        expect(str.substring(str.length - 3, str.length).equals('🀵𝄞𝐁')).toEqual(true);
+    });
+});
+
+describe('padStart', () => {
+    test('no change: without params', () => {
+        const str = new UnicodeString('hi');
+        expect(str.padStart().length).toEqual(2);
+    });
+
+    test('no change: requestedLength <= length', () => {
+        const str = new UnicodeString('hi');
+        expect(str.padStart(1, 'a').length).toEqual(2);
+        expect(str.padStart(2, 'a').length).toEqual(2);
+    });
+
+    test('no change: template is empty', () => {
+        const str = new UnicodeString('hi');
+        expect(str.padStart(5, '').length).toEqual(2);
+    });
+
+    test('add 3 smiles', () => {
+        const str = new UnicodeString('hi');
+        const padded = str.padStart(5, '😀');
+        expect(padded.length).toEqual(5);
+        expect(padded.equals('😀😀😀hi')).toEqual(true);
+    });
+
+    test('add 3 letters', () => {
+        const str = new UnicodeString('hi');
+        const padded = str.padStart(5, 'X');
+        expect(padded.length).toEqual(5);
+        expect(padded.equals('XXXhi')).toEqual(true);
+    });
+
+    test('add 2 3-letter words', () => {
+        const str = new UnicodeString('hi');
+        const padded = str.padStart(8, 'xyz');
+        expect(padded.length).toEqual(8);
+        expect(padded.equals('xyzxyzhi')).toEqual(true);
+    });
+
+    test('add 2/1 letters of 3-letter words', () => {
+        const str = new UnicodeString('hi');
+        const padded = str.padStart(9, 'xyz');
+        expect(padded.length).toEqual(9);
+        expect(padded.equals('xyzxyzxhi')).toEqual(true);
+    });
+
+    test('add 2/2 letters of 3-letter words', () => {
+        const str = new UnicodeString('hi');
+        const padded = str.padStart(10, 'xyz');
+        expect(padded.length).toEqual(10);
+        expect(padded.equals('xyzxyzxyhi')).toEqual(true);
+    });
+
+    test('add 2/2 letters of 3-letter words with a smile', () => {
+        const str = new UnicodeString('hi');
+        const padded = str.padStart(10, 'xy😀');
+        expect(padded.length).toEqual(10);
+        expect(padded.equals('xy😀xy😀xyhi')).toEqual(true);
+    });
+});

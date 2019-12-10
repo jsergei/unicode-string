@@ -388,6 +388,7 @@ describe('padStart', () => {
     test('add 2/1 letters of 3-letter words', () => {
         const str = new UnicodeString('hi');
         const padded = str.padStart(9, 'xyz');
+        console.log(padded.toString());
         expect(padded.length).toEqual(9);
         expect(padded.equals('xyzxyzxhi')).toEqual(true);
     });
@@ -406,3 +407,31 @@ describe('padStart', () => {
         expect(padded.equals('xy😀xy😀xyhi')).toEqual(true);
     });
 });
+
+describe('repeat', () => {
+    test('repeat 0 times', () => {
+        const str = new UnicodeString('hi😀');
+        const repeated = str.repeat(0);
+        expect(repeated.length).toEqual(0);
+    });
+
+    test('repeat 10 times an empty string', () => {
+        const str = UnicodeString.empty;
+        const repeated = str.repeat(10);
+        expect(repeated.length).toEqual(0);
+    });
+
+    test('repeat 1 time', () => {
+        const str = new UnicodeString('hi😀');
+        const repeated = str.repeat(1);
+        expect(repeated.length).toEqual(3);
+        expect(repeated.equals('hi😀')).toEqual(true);
+    });
+
+    test('repeat 3 times', () => {
+        const str = new UnicodeString('hi😀');
+        const repeated = str.repeat(3);
+        expect(repeated.length).toEqual(9);
+        expect(repeated.equals('hi😀hi😀hi😀')).toEqual(true);
+    });
+})

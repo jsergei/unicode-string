@@ -183,25 +183,31 @@ export class UnicodeString {
         if (!length || length <= this.length || template.length === 0) {
             return this;
         }
-        let combined = [];
         const wholeParts = (length - this.length) / template.length;
         const remaining = (length - this.length) % template.length;
-        for (let whole = 1; whole <= wholeParts; whole++) {
-            combined.push(...template);
-        }
-        if (remaining) {
-            combined.push(...template.substring(0, remaining));
-        }
-        combined.push(...this);
-        return new UnicodeString(combined);
+        return new UnicodeString([
+            ...template.repeat(wholeParts),
+            ...template.substring(0, remaining),
+            ...this
+        ]);
     }
 
     padEnd(length, template = ' ') {
         throw new Error('not implemented');
     }
 
-    repeat(times) {
-        throw new Error('not implemented');
+    repeat(times = 0) {
+        if (times < 0) {
+            throw new RangeError('Invalid count value');
+        }
+        if (times === 0 || this.length === 0) {
+            return UnicodeString.empty;
+        }
+        const combined = new Array(this.length * times);
+        for (let i = 0; i < times * this.length; i++) {
+            combined[i] = this.at(i % this.length);
+        }
+        return new UnicodeString(combined);
     }
 
     trimStart() {

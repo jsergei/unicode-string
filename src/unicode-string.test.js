@@ -196,3 +196,114 @@ describe('indexOf', () => {
         expect(str1.indexOf(str2, 10)).toEqual(-1);
     });
 });
+
+describe('startsWith', () => {
+    test('match: startIndex not set', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('Hi😀');
+
+        expect(str1.startsWith(str2)).toEqual(true);
+    });
+
+    test('match: startIndex is negative', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('Hi😀');
+
+        expect(str1.startsWith(str2, -10)).toEqual(true);
+    });
+
+    test('match empty: startIndex is negative', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        expect(str1.startsWith('')).toEqual(true);
+    });
+
+    test('match empty: startIndex is > length', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        expect(str1.startsWith('', 20)).toEqual(true);
+    });
+
+    test('match 0 < startIndex < length', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        expect(str1.startsWith('🀵', 10)).toEqual(true);
+    });
+
+    test('no match: different str', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        expect(str1.startsWith('Ab')).toEqual(false);
+    });
+
+    test('no match: startIndex cuts off a bit', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        expect(str1.startsWith('there', 5)).toEqual(false);
+    });
+
+    test('no match: same but longer word', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        expect(str1.startsWith('Hi😀 there 🀵𝄞𝐁1')).toEqual(false);
+    });
+});
+
+describe('endsWith', () => {
+    test('match: length is not set', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('🀵𝄞𝐁');
+
+        expect(str1.endsWith(str2)).toEqual(true);
+    });
+
+    test('match: equal strings', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+
+        expect(str1.endsWith(str2)).toEqual(true);
+    });
+
+    test('match: length cuts of the invalid part', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('there');
+
+        expect(str1.endsWith(str2, 9)).toEqual(true);
+    });
+
+    test('match empty: length is -1', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('');
+
+        expect(str1.endsWith(str2, -1)).toEqual(true);
+    });
+
+    test('match empty: length is too big', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('');
+
+        expect(str1.endsWith(str2, 30)).toEqual(true);
+    });
+
+    test('not match: length not set', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('🀵𝄞X');
+
+        expect(str1.endsWith(str2)).toEqual(false);
+    });
+
+    test('not match: same but longer word', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('1Hi😀 there 🀵𝄞𝐁');
+
+        expect(str1.endsWith(str2)).toEqual(false);
+    });
+
+    test('not match: different last symbol', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('hi😀 there 🀵𝄞𝐁');
+
+        expect(str1.endsWith(str2)).toEqual(false);
+    });
+
+    test('not match: equal strings but length cuts off a bit', () => {
+        const str1 = UnicodeString.from('Hi😀 there 🀵𝄞𝐁');
+        const str2 = UnicodeString.from('hi😀 there 🀵𝄞𝐁');
+
+        expect(str1.endsWith(str2, 10)).toEqual(false);
+    });
+});

@@ -30,10 +30,13 @@ export class UnicodeString {
     }
 
     slice(start, end) {
+        start = Math.floor(start);
+        end = Math.floor(end);
         return new UnicodeString(this._strArr.slice(start, end));
     }
 
     at(index) {
+        index = Math.floor(index);
         if (index >= 0 && index < this._strArr.length) {
             return this._strArr[index];
         } else {
@@ -64,10 +67,10 @@ export class UnicodeString {
         // TODO: Consider normalization
         searchString = UnicodeString.from(searchString);
         startPosition = Math.floor(startPosition);
-        const letters = new Set(searchString);
         if (startPosition < 0) {
             startPosition = 0;
         }
+        const letters = new Set(searchString);
         if (searchString.length === 0) {
             return startPosition > this.length ? this.length : startPosition;
         }
@@ -116,6 +119,7 @@ export class UnicodeString {
     substring(indexStart = 0, indexEnd = this.length) {
         indexStart = Math.floor(indexStart);
         indexEnd = Math.floor(indexEnd);
+
         if (indexStart > indexEnd) {
             [indexStart, indexEnd] = [indexEnd, indexStart];
         }
@@ -189,6 +193,7 @@ export class UnicodeString {
         if (!length || length <= this.length || template.length === 0) {
             return this;
         }
+
         const wholeParts = Math.floor((length - this.length) / template.length);
         const remaining = (length - this.length) % template.length;
         return new UnicodeString([
@@ -199,17 +204,30 @@ export class UnicodeString {
     }
 
     padEnd(length, template = ' ') {
-        throw new Error('not implemented');
+        template = UnicodeString.from(template);
+        length = Math.floor(length);
+        if (!length || length <= this.length || template.length === 0) {
+            return this;
+        }
+
+        const wholeParts = Math.floor((length - this.length) / template.length);
+        const remaining = (length - this.length) % template.length;
+        return new UnicodeString([
+            ...this,
+            ...template.repeat(wholeParts),
+            ...template.substring(0, remaining)
+        ]);
     }
 
     repeat(times = 0) {
+        times = Math.floor(times);
         if (times < 0) {
             throw new RangeError('Invalid count value');
         }
-        times = Math.floor(times);
         if (times === 0 || this.length === 0) {
             return UnicodeString.empty;
         }
+
         const combined = new Array(this.length * times);
         for (let i = 0; i < times * this.length; i++) {
             combined[i] = this.at(i % this.length);
@@ -225,8 +243,26 @@ export class UnicodeString {
         throw new Error('not implemented');
     }
 
+    trim() {
+        return this.trimStart().trimEnd();
+    }
+
     *[Symbol.iterator]() {
         yield* this._strArr;
+    }
+
+    [Symbol.toPrimitive](hint) {
+        if (hint === 'number') {
+            return this.length;
+        } else if (hint === 'string') {
+            return this.toString();
+        } else { // 'default'
+            return this.toString();
+        }
+    }
+
+    get [Symbol.toStringTag]() {
+        return 'Unicode String';
     }
 
     toString() {

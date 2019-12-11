@@ -63,6 +63,7 @@ export class UnicodeString {
     indexOf(searchString, startPosition = 0) {
         // TODO: Consider normalization
         searchString = UnicodeString.from(searchString);
+        startPosition = Math.floor(startPosition);
         const letters = new Set(searchString);
         if (startPosition < 0) {
             startPosition = 0;
@@ -113,6 +114,8 @@ export class UnicodeString {
     }
 
     substring(indexStart = 0, indexEnd = this.length) {
+        indexStart = Math.floor(indexStart);
+        indexEnd = Math.floor(indexEnd);
         if (indexStart > indexEnd) {
             [indexStart, indexEnd] = [indexEnd, indexStart];
         }
@@ -134,6 +137,7 @@ export class UnicodeString {
 
     startsWith(searchString, startPosition = 0) {
         searchString = UnicodeString.from(searchString);
+        startPosition = Math.floor(startPosition);
 
         if (searchString.length === 0) {
             return true;
@@ -155,6 +159,7 @@ export class UnicodeString {
 
     endsWith(searchString, length = this.length) {
         searchString = UnicodeString.from(searchString);
+        length = Math.floor(length);
 
         if (searchString.length === 0) {
             return true;
@@ -180,10 +185,11 @@ export class UnicodeString {
 
     padStart(length, template = ' ') {
         template = UnicodeString.from(template);
+        length = Math.floor(length);
         if (!length || length <= this.length || template.length === 0) {
             return this;
         }
-        const wholeParts = (length - this.length) / template.length;
+        const wholeParts = Math.floor((length - this.length) / template.length);
         const remaining = (length - this.length) % template.length;
         return new UnicodeString([
             ...template.repeat(wholeParts),
@@ -200,6 +206,7 @@ export class UnicodeString {
         if (times < 0) {
             throw new RangeError('Invalid count value');
         }
+        times = Math.floor(times);
         if (times === 0 || this.length === 0) {
             return UnicodeString.empty;
         }

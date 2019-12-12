@@ -29,7 +29,7 @@ export class UnicodeString {
         return new UnicodeString([...this, ...UnicodeString.from(str)]);
     }
 
-    slice(start, end) {
+    slice(start = 0, end = this.length) {
         start = Math.floor(start);
         end = Math.floor(end);
         return new UnicodeString(this._strArr.slice(start, end));
@@ -119,24 +119,19 @@ export class UnicodeString {
     substring(indexStart = 0, indexEnd = this.length) {
         indexStart = Math.floor(indexStart);
         indexEnd = Math.floor(indexEnd);
-
         if (indexStart > indexEnd) {
             [indexStart, indexEnd] = [indexEnd, indexStart];
         }
-        if (indexStart < 0) {
-            indexStart = 0;
-        }
-        if (indexStart >= this.length) {
+        indexStart = Math.min(Math.max(0, indexStart), this.length);
+        indexEnd = Math.min(Math.max(0, indexEnd), this.length);
+        if (indexStart === this.length || indexEnd === 0) {
             return UnicodeString.empty;
         }
-        if (indexEnd > this.length) {
-            indexEnd = this.length;
+        if (indexStart === 0 && indexEnd === this.length) {
+            return this;
+        } else {
+            return this.slice(indexStart, indexEnd);
         }
-        if (indexEnd <= 0) {
-            return UnicodeString.empty;
-        }
-        
-        return this.slice(indexStart, indexEnd);
     }
 
     startsWith(searchString, startPosition = 0) {
@@ -236,15 +231,36 @@ export class UnicodeString {
     }
 
     trimStart() {
-        throw new Error('not implemented');
+        return this.substring(this._findFirstNonSpaceCharacter());
     }
 
     trimEnd() {
-        throw new Error('not implemented');
+        return this.substring(0, this._findLastNonSpaceCharacter() + 1);
+    }
+
+    _findFirstNonSpaceCharacter() {
+        let index = 0;
+        for (let char of this) {
+            if (!char.match(/\s/)) {
+                break;
+            }
+            index++;
+        }
+        return index;
+    }
+
+    _findLastNonSpaceCharacter() {
+        let index = this.length - 1;
+        for (; index >= 0; index--) {
+            if (!this.at(index).match(/\s/)) {
+                break;
+            }
+        }
+        return index;
     }
 
     trim() {
-        return this.trimStart().trimEnd();
+        return this.substring(this._findFirstNonSpaceCharacter(), this._findLastNonSpaceCharacter() + 1);
     }
 
     *[Symbol.iterator]() {
@@ -262,7 +278,7 @@ export class UnicodeString {
     }
 
     get [Symbol.toStringTag]() {
-        return 'Unicode String';
+        return 'UnicodeString';
     }
 
     toString() {

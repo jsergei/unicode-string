@@ -434,4 +434,22 @@ describe('repeat', () => {
         expect(repeated.length).toEqual(9);
         expect(repeated.equals('hi😀hi😀hi😀')).toEqual(true);
     });
-})
+});
+
+describe('trimStart', () => {
+    test('remove simple spaces', () => {
+        const str = new UnicodeString('   hello world 😀');
+        const trimmed = str.trimStart();
+        expect(trimmed.length).toEqual(13);
+        expect(trimmed.equals('hello world 😀')).toEqual(true);
+    });
+});
+
+describe('trimEnd', () => {
+    test('remove simple spaces', () => {
+        const str = new UnicodeString('hello world 😀   ');
+        const trimmed = str.trimEnd();
+        expect(trimmed.length).toEqual(13);
+        expect(trimmed.equals('hello world 😀')).toEqual(true);
+    });
+});

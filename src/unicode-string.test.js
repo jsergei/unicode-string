@@ -388,7 +388,6 @@ describe('padStart', () => {
     test('add 2/1 letters of 3-letter words', () => {
         const str = new UnicodeString('hi');
         const padded = str.padStart(9, 'xyz');
-        console.log(padded.toString());
         expect(padded.length).toEqual(9);
         expect(padded.equals('xyzxyzxhi')).toEqual(true);
     });

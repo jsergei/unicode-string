@@ -241,7 +241,7 @@ export class UnicodeString {
     _findFirstNonSpaceCharacter() {
         let index = 0;
         for (let char of this) {
-            if (!char.match(/\s/)) {
+            if (!/\s/.test(char)) {
                 break;
             }
             index++;
@@ -252,7 +252,7 @@ export class UnicodeString {
     _findLastNonSpaceCharacter() {
         let index = this.length - 1;
         for (; index >= 0; index--) {
-            if (!this.at(index).match(/\s/)) {
+            if (!/\s/.test(this.at(index))) {
                 break;
             }
         }

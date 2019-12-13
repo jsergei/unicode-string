@@ -263,6 +263,54 @@ export class UnicodeString {
         return this.substring(this._findFirstNonSpaceCharacter(), this._findLastNonSpaceCharacter() + 1);
     }
 
+    search(regex) {
+        const str = this.toString();
+        let index = str.search(regex);
+        let position = index;
+        let pairs = 0;
+        if (index >= 0) {
+            // Check: non-unicode regex that matched a low surrogate pair instead of a high pair or a code point
+            // Happens when not using the \u flag
+            if (this._isLowSurrogatePair(str[index])) { 
+                const prevChar = index - 1 >= 0 ? str[index - 1] : null;
+                if (prevChar) {
+                    if (this._isHighSurrogatePair(prevChar)) {
+                        pairs++;
+                    }
+                    position--;
+                } else {
+                    return 0;
+                }
+            }
+
+            // Count all of the preceeding surrogate pairs
+            while (position >= 0) {
+                const currChar = str[position];
+                const prevChar = position - 1 >= 0 ? str[position - 1] : null;
+                if (prevChar && this._isHighSurrogatePair(prevChar) && this._isLowSurrogatePair(currChar)) {
+                    pairs++;
+                    position-= 2;
+                } else {
+                    position--;
+                }
+            }
+
+            return index - pairs;
+        } else {
+            return -1;
+        }
+    }
+
+    _isHighSurrogatePair(char) {
+        const code = char.charCodeAt(0);
+        return code >= 0xD800 && code <= 0xDBFF;
+    }
+
+    _isLowSurrogatePair(char) {
+        const code = char.charCodeAt(0);
+        return code >= 0xDC00 && code <= 0xDFFF;
+    }
+
     *[Symbol.iterator]() {
         yield* this._strArr;
     }

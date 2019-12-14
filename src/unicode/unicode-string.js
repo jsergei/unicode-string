@@ -1,3 +1,8 @@
+import { indexOf } from "./indexof";
+import { startsWith } from "./starts-with";
+import { endsWith } from "./ends-with";
+import { lastIndexOf } from "./last-index-of";
+
 export class UnicodeString {
     static from(inputStr) {
         return inputStr && inputStr instanceof UnicodeString
@@ -64,52 +69,11 @@ export class UnicodeString {
     }
 
     indexOf(searchString, startPosition = 0) {
-        // TODO: Consider normalization
-        searchString = UnicodeString.from(searchString);
-        startPosition = Math.floor(startPosition);
-        if (startPosition < 0) {
-            startPosition = 0;
-        }
-        const letters = new Set(searchString);
-        if (searchString.length === 0) {
-            return startPosition > this.length ? this.length : startPosition;
-        }
-        if (this.length === 0 || searchString.length > this.length - startPosition) {
-            return -1;
-        }
+        return indexOf(this, searchString, startPosition);
+    }
 
-        // init the sliding window
-        let errors = 0;
-        for (let i = startPosition; i < startPosition + letters.size; i++) {
-            if (!letters.has(this.at(i))) {
-                errors++;
-            }
-        }
-
-        const strMinusPattern = this.length - letters.size;
-        for (let i = startPosition; i <= startPosition + strMinusPattern; i++) {
-            // Try to match a substring iff there are no errors
-            if (!errors) {
-                let fullMatch = true;
-                for (let j = i; j < i + letters.size; j++) {
-                    if (this.at(j) !== searchString.at(j - i)) {
-                        fullMatch = false;
-                        break; // at least one letter is different
-                    }
-                }
-                if (fullMatch) {
-                    return i;
-                }
-            }
-            
-            // Update errors by removing the first letter and adding the next
-            if (i + 1 <= strMinusPattern) {
-                errors -= letters.has(this.at(i)) ? 0 : 1;
-                errors += letters.has(this.at(i + letters.size)) ? 0 : 1;
-            }
-        }
-        
-        return -1;
+    lastIndexOf(searchString, fromIndex = this.length) {
+        return lastIndexOf(this, searchString, fromIndex);
     }
 
     includes(searchString, startPosition = 0) {
@@ -135,51 +99,11 @@ export class UnicodeString {
     }
 
     startsWith(searchString, startPosition = 0) {
-        searchString = UnicodeString.from(searchString);
-        startPosition = Math.floor(startPosition);
-
-        if (searchString.length === 0) {
-            return true;
-        }
-        if (startPosition < 0) {
-            startPosition = 0;
-        }
-        if (startPosition + searchString.length > this.length) {
-            return false;
-        }
-        
-        for (let i = startPosition; i < startPosition + searchString.length; i++) {
-            if (this.at(i) !== searchString.at(i - startPosition)) {
-                return false;
-            }
-        }
-        return true;
+        return startsWith(this, searchString, startPosition);
     }
 
     endsWith(searchString, length = this.length) {
-        searchString = UnicodeString.from(searchString);
-        length = Math.floor(length);
-
-        if (searchString.length === 0) {
-            return true;
-        }
-        if (length <= 0) {
-            return false;
-        }
-        if (length > this.length) {
-            length = this.length;
-        }
-        if (searchString.length > length) {
-            return false;
-        }
-
-        const startPosition = length - searchString.length;
-        for (let i = 0; i < searchString.length; i++) {
-            if (this.at(startPosition + i) !== searchString.at(i)) {
-                return false;
-            }
-        }
-        return true;
+        return endsWith(this, searchString, length);
     }
 
     padStart(length, template = ' ') {

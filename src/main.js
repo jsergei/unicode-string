@@ -1,5 +1,5 @@
 import '../css/style.scss';
-import { UnicodeString } from './unicode-string';
+import { UnicodeString } from './unicode/unicode-string';
 
 const popupBackground = document.querySelector('.background');
 const stringGlyphsEl = document.querySelector('.string-glyphs');

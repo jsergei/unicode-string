@@ -63,6 +63,13 @@ test('match: substring is empty at the end', () => {
     expect(str1.indexOf(str2, 100)).toEqual(str1.length);
 });
 
+test('match: substring contains repeated letters', () => {
+    const str1 = UnicodeString.from('Hi 😀 thererere 🀵𝄞𝐁');
+    const str2 = UnicodeString.from('rere');
+
+    expect(str1.indexOf(str2)).toEqual(8);
+});
+
 test('no match: strings are different', () => {
     const str1 = UnicodeString.from('Hi 😀 there 🀵𝄞𝐁');
     const str2 = UnicodeString.from('Bye');

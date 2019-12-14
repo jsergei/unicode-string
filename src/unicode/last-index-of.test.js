@@ -47,3 +47,9 @@ test('search str is longer than base str', () => {
     const index = str.lastIndexOf('Hello World😀 World😀😀');
     expect(index).toEqual(-1);
 });
+
+test('search str contains repeated letters', () => {
+    const str = UnicodeString.from('HelloW😀😀rldW😀😀rld');
+    const index = str.lastIndexOf('W😀😀');
+    expect(index).toEqual(11);
+});

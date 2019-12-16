@@ -1,5 +1,4 @@
 import '../css/style.scss';
-import { UnicodeString } from './unicode/unicode-string';
 
 const popupBackground = document.querySelector('.background');
 const stringGlyphsEl = document.querySelector('.string-glyphs');
@@ -76,30 +75,30 @@ document.querySelector('#letters').addEventListener('click', () => {
     standChar = '';
 });
 
+// const hyphenedName = 'top-left-corner';
+// const camel = hyphenedName.replace(/-(\w+)/g, (match, word) => {
+//     return word[0].toUpperCase() + word.substring(1);
+// });
+// console.log(`upper-cased: ${camel}`);
 
-const str1 = UnicodeString.from('😀🀵𝄞𝐁');
-console.log(str1.length);
+// const camelName = 'topLeftCorner';
+// const hyphened = camelName.replace(/[A-Z]/g, (match) => {
+//     return '-' + match.toLowerCase();
+// });
+// console.log(`hyphened: ${hyphened}`);
 
-const str2 = UnicodeString.from('Hello: ');
-console.log(str2.length);
+const report = `The temperature outside is -21.3C. It is expected to raise to +2C by early afernoon.
+Some claim it might be as high as 8.3c or even 10 or as low as 0C, but there is no evidence to back it up.`;
 
-const union = str2.concat(str1);
-console.log(union.length);
-console.log(union.toString());
-
-let a = {
-    inner: {
-        obj1: 'hi',
-        obj2: 'no'
-    },
-    outer: {
-        obj1: 13
-    },
-    //arr: [1,2,3]
-};
-
-function show({arr = [4, 5]}) {
-    const [,,lastElement = -1] = arr;
-    console.log(`arr: ${lastElement}`);
-}
-show(a);
+let toFahrenheit = str => str.replace(/([\-+])?(\d+(?:\.\d+)?)[cC]/g, (match, sign, number) => {
+    // C = (F - 32) * 5/9
+    // F = C * 9/5 + 32
+    const asNum = +number * (sign === '-' ? -1 : 1);
+    const fahr = asNum * 9/5 + 32;
+    const negative = fahr < 0;
+    const zero = fahr === 0;
+    return (negative ? '-' : (zero ? '' : '+'))
+        + Math.abs(fahr).toFixed(2)
+        + 'F';
+});
+console.log(toFahrenheit(report));

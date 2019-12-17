@@ -81,24 +81,33 @@ document.querySelector('#letters').addEventListener('click', () => {
 // });
 // console.log(`upper-cased: ${camel}`);
 
-// const camelName = 'topLeftCorner';
-// const hyphened = camelName.replace(/[A-Z]/g, (match) => {
-//     return '-' + match.toLowerCase();
+
+// const camelName = 'TopLeftCorner';
+// const hyphened = camelName.replace(/[A-Z]/g, (match, index) => {
+//     return  (index > 0 ? '-' : '') + match.toLowerCase();
 // });
 // console.log(`hyphened: ${hyphened}`);
 
-const report = `The temperature outside is -21.3C. It is expected to raise to +2C by early afernoon.
-Some claim it might be as high as 8.3c or even 10 or as low as 0C, but there is no evidence to back it up.`;
 
-let toFahrenheit = str => str.replace(/([\-+])?(\d+(?:\.\d+)?)[cC]/g, (match, sign, number) => {
-    // C = (F - 32) * 5/9
-    // F = C * 9/5 + 32
-    const asNum = +number * (sign === '-' ? -1 : 1);
-    const fahr = asNum * 9/5 + 32;
-    const negative = fahr < 0;
-    const zero = fahr === 0;
-    return (negative ? '-' : (zero ? '' : '+'))
-        + Math.abs(fahr).toFixed(2)
-        + 'F';
+// const report = `The temperature outside is -21.3C. It is expected to raise to +2C by early afernoon.
+// Some claim it might be as high as 8.3c or even 10 or as low as 0C, but there is no evidence to back it up.`;
+
+// let toFahrenheit = str => str.replace(/([\-+])?(\d+(?:\.\d+)?)[cC]/g, (match, sign, number) => {
+//     // C = (F - 32) * 5/9
+//     // F = C * 9/5 + 32
+//     const asNum = +number * (sign === '-' ? -1 : 1);
+//     const fahr = asNum * 9/5 + 32;
+//     const negative = fahr < 0;
+//     const zero = fahr === 0;
+//     return (negative ? '-' : (zero ? '' : '+'))
+//         + Math.abs(fahr).toFixed(2)
+//         + 'F';
+// });
+// console.log(toFahrenheit(report));
+
+
+const str = 'yeah, yeah,  YEAH,   Hello, yeah,   World,   yeah,  yeah, yeah, yeah, hi!,   yeah';
+const result = str.replace(/(?:\s*,?\s*yeah\s*,?\s*)+/gi, (match, index, all) => {
+    return (index === 0 || index + match.length === all.length) ? '' : ' ';
 });
-console.log(toFahrenheit(report));
+console.log(`result: "${result}"`);

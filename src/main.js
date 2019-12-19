@@ -106,8 +106,62 @@ document.querySelector('#letters').addEventListener('click', () => {
 // console.log(toFahrenheit(report));
 
 
-const str = 'yeah, yeah,  YEAH,   Hello, yeah,   World,   yeah,  yeah, yeah, yeah, hi!,   yeah';
-const result = str.replace(/(?:\s*,?\s*yeah\s*,?\s*)+/gi, (match, index, all) => {
-    return (index === 0 || index + match.length === all.length) ? '' : ' ';
-});
-console.log(`result: "${result}"`);
+// const str = 'yeah, yeah,  YEAH,   Hello, yeah,   World,   yeah,  yeah, yeah, yeah, hi!,   yeah';
+// const result = str.replace(/(?:\s*,?\s*yeah\s*,?\s*)+/gi, (match, index, all) => {
+//     return (index === 0 || index + match.length === all.length) ? '' : ' ';
+// });
+// console.log(`result: "${result}"`);
+
+
+// const dateStr = 'Today is Tue 1:28 PM, December 17, 2019. So please be ready.';
+// /\b(\w{3})\s*(\d{1,2}:\d{2})\s*(am|pm),?\s*(\w*)\s*(\d{1,2},?\s*(\d{4}))\b/i
+
+
+// Fill in the regular expressions
+
+
+function verify(regexp, yes, no) {
+    // Ignore unfinished exercises
+    if (regexp.source == "...") return;
+    for (let str of yes) if (!regexp.test(str)) {
+        console.log(`Failure to match '${str}'`);
+    }
+    for (let str of no) if (regexp.test(str)) {
+        console.log(`Unexpected match for '${str}'`);
+    }
+}
+
+// car and cat
+verify(/\bca(?:t|r)s?\b/,
+    ["my car", "bad cats", "noisy cars", "cat", "my cat"],
+    ["camper", "high art", "cart", "Ben Carson", "carret", "acat", "wildcat", "flyingcar", "catso", "catos"]);
+
+// pop and prop
+verify(/\b(?:(?:prop(?:s)?)|pop)\b/,
+    ["pop culture", "mad props", "pop", "object prop", "jiggy pop"],
+    ["plop", "prrrop", "lollipop", "lollipops", "pops", "crops", "crop"]);
+
+// ferret, ferry, and ferrari
+verify(/\bferr(?:y|et|ari)\b/,
+    ["ferret", "ferry", "ferrari"],
+    ["ferrum", "transfer A"]);
+
+// Any word ending in ious
+verify(/\b(\w*)ious\b/,
+    ["how delicious", "spacious room", "space very ious"],
+    ["ruinous", "consciousness", "poisonous", "spaciousness", "iousx"]);
+
+// A whitespace character followed by a period, comma, colon, or semicolon
+verify(/\s[.,;:]/,
+    ["bad punctuation .", "hey ,you!", "what is this mess ; he slipped", "result :fail", "He said . No!", ' . cannot do' ],
+    ["escape the period", "Hello, there", "Hey,you", "start; stop", "result: pass"]);
+
+// A word longer than six letters
+verify(/\w{7,}/,
+    ["hottentottententen"],
+    ["no", "hotten totten tenten"]);
+
+// A word without the letter e (or E)
+verify(/\b[^e\s]+\b/i,
+    ["red platypus", "wobbling nest"],
+    ["earth bed", "learning ape", "BEET"]);

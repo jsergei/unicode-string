@@ -168,16 +168,33 @@ document.querySelector('#letters').addEventListener('click', () => {
 
 
 
-const text = "'I'm the cooks' chief,' he said, 'it's my job.'";
-const reQuoted = text.replace(/'/g, (match, index, all) => {
-    if (index === 0 || index === all.length - 1) {
-        return '"';
+// const text = "'I'm the cooks' chief,' he said, 'it's my job.'";
+// const reQuoted = text.replace(/'/g, (match, index, all) => {
+//     if (index === 0 || index === all.length - 1) {
+//         return '"';
+//     }
+//     const prev = all[index - 1];
+//     const next = all[index + 1];
+//     if (/\W/.test(prev) || (/\W/.test(next) && prev.toLowerCase() !== 's')) {
+//         return '"';
+//     }
+//     return '\'';
+// });
+// console.log(`re-quoted: ${reQuoted}`);
+
+
+
+// Fill in this regular expression.
+let number = /^[\-+]?(\d+(\.\d*)?|\.\d+)([eE][\-+]?\d+)?$/;
+
+// Tests:
+for (let str of ["1", "-1", "+15", "1.55", ".5", "5.", "1.3e2", "1E-4", "1e+12"]) {
+    if (!number.test(str)) {
+        console.log(`Failed to match '${str}'`);
     }
-    const prev = all[index - 1];
-    const next = all[index + 1];
-    if (/\W/.test(prev) || (/\W/.test(next) && prev.toLowerCase() !== 's')) {
-        return '"';
+}
+for (let str of ["1a", "+-1", "1.2.3", "1+1", "1e4.5", ".5.", "1f5", "."]) {
+    if (number.test(str)) {
+        console.log(`Incorrectly accepted '${str}'`);
     }
-    return '\'';
-});
-console.log(`re-quoted: ${reQuoted}`);
+}

@@ -184,17 +184,36 @@ document.querySelector('#letters').addEventListener('click', () => {
 
 
 
-// Fill in this regular expression.
-let number = /^[\-+]?(\d+(\.\d*)?|\.\d+)([eE][\-+]?\d+)?$/;
+// // Fill in this regular expression.
+// let number = /^[\-+]?(\d+(\.\d*)?|\.\d+)([eE][\-+]?\d+)?$/;
 
+// // Tests:
+// for (let str of ["1", "-1", "+15", "1.55", ".5", "5.", "1.3e2", "1E-4", "1e+12"]) {
+//     if (!number.test(str)) {
+//         console.log(`Failed to match '${str}'`);
+//     }
+// }
+// for (let str of ["1a", "+-1", "1.2.3", "1+1", "1e4.5", ".5.", "1f5", "."]) {
+//     if (number.test(str)) {
+//         console.log(`Incorrectly accepted '${str}'`);
+//     }
+// }
+
+
+// password
+// contain at least 8 symbols, 2 uppercase letters, 2 digits, 1 special symbol, (opt: at least 4 unique characters)
+// example H31!C0pter
+
+// (?=.*?[A-Z].*?[A-Z])
+const passwordRules = /(?=.*?[A-Z].*?[A-Z])(?=.*?\d.*?\d)(?=.*?[!@#$%^&*(),.?])/;
 // Tests:
-for (let str of ["1", "-1", "+15", "1.55", ".5", "5.", "1.3e2", "1E-4", "1e+12"]) {
-    if (!number.test(str)) {
+for (let str of ["H31!C0pter", "11AB!abc"]) {
+    if (!passwordRules.test(str)) {
         console.log(`Failed to match '${str}'`);
     }
 }
-for (let str of ["1a", "+-1", "1.2.3", "1+1", "1e4.5", ".5.", "1f5", "."]) {
-    if (number.test(str)) {
+for (let str of ["Helicopter", "hi", "Kim John Un", "1984", "The Year is 1984", "11AB!"]) {
+    if (passwordRules.test(str)) {
         console.log(`Incorrectly accepted '${str}'`);
     }
 }

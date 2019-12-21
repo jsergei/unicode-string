@@ -200,20 +200,33 @@ document.querySelector('#letters').addEventListener('click', () => {
 // }
 
 
-// password
-// contain at least 8 symbols, 2 uppercase letters, 2 digits, 1 special symbol, (opt: at least 4 unique characters)
-// example H31!C0pter
+// // password
+// // contain at least 8 symbols, 2 uppercase letters, 2 digits, 1 special symbol, (opt: at least 4 unique characters)
+// // example H31!C0pter
 
-// (?=.*?[A-Z].*?[A-Z])
-const passwordRules = /(?=.*?[A-Z].*?[A-Z])(?=.*?\d.*?\d)(?=.*?[!@#$%^&*(),.?])/;
-// Tests:
-for (let str of ["H31!C0pter", "11AB!abc"]) {
-    if (!passwordRules.test(str)) {
-        console.log(`Failed to match '${str}'`);
-    }
-}
-for (let str of ["Helicopter", "hi", "Kim John Un", "1984", "The Year is 1984", "11AB!"]) {
-    if (passwordRules.test(str)) {
-        console.log(`Incorrectly accepted '${str}'`);
-    }
-}
+// // (?=.*?[A-Z].*?[A-Z])
+// const passwordRules = /(?=.*?[A-Z].*?[A-Z])(?=.*?\d.*?\d)(?=.*?[!@#$%^&*(),.?])/;
+// // Tests:
+// for (let str of ["H31!C0pter", "11AB!abc"]) {
+//     if (!passwordRules.test(str)) {
+//         console.log(`Failed to match '${str}'`);
+//     }
+// }
+// for (let str of ["Helicopter", "hi", "Kim John Un", "1984", "The Year is 1984", "11AB!"]) {
+//     if (passwordRules.test(str)) {
+//         console.log(`Incorrectly accepted '${str}'`);
+//     }
+// }
+
+
+// bb-tags https://javascript.info/regexp-alternation; b, url, quote; [tag]...[/tag]
+const regexp = /\[(?<tag>b|url|quote)\](?<contents>[\s\S]*?)\[\/\1\]/ig;
+
+const str = `Here is the url:
+[url]
+    [quote]piggy:[/quote]
+    http://google.com
+[/url]. You're [b]welcome[/b].`;
+// const str = 'Hello there!';
+[...str.matchAll(regexp)].forEach(({groups: {tag, contents}}) =>
+    console.log(`tag: ${tag.trim()}, contents: ${contents.trim()}`));

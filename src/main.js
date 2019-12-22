@@ -219,14 +219,37 @@ document.querySelector('#letters').addEventListener('click', () => {
 // }
 
 
-// bb-tags https://javascript.info/regexp-alternation; b, url, quote; [tag]...[/tag]
-const regexp = /\[(?<tag>b|url|quote)\](?<contents>[\s\S]*?)\[\/\1\]/ig;
+// // bb-tags https://javascript.info/regexp-alternation; b, url, quote; [tag]...[/tag]
+// const regexp = /\[(?<tag>b|url|quote)\](?<contents>[\s\S]*?)\[\/\1\]/ig;
 
-const str = `Here is the url:
-[url]
-    [quote]piggy:[/quote]
-    http://google.com
-[/url]. You're [b]welcome[/b].`;
-// const str = 'Hello there!';
-[...str.matchAll(regexp)].forEach(({groups: {tag, contents}}) =>
-    console.log(`tag: ${tag.trim()}, contents: ${contents.trim()}`));
+// const str = `Here is the url:
+// [url]
+//     [quote]piggy:[/quote]
+//     http://google.com
+// [/url]. You're [b]welcome[/b].`;
+// // const str = 'Hello there!';
+// [...str.matchAll(regexp)].forEach(({groups: {tag, contents}}) =>
+//     console.log(`tag: ${tag.trim()}, contents: ${contents.trim()}`));
+
+
+
+// // find qoted strings
+// const str = 'Hi there. "Yeah, nice to meet you". "Do you know \\"your\\" neighbours," he asked.';
+// // const regexp = /(?<!\\)"([\s\S]*?)(?<!\\)"/g;
+// const regexp = /[^\\]"([\s\S]*?[^\\])"/g;
+// [...str.matchAll(regexp)].forEach(([_, qouted]) =>
+//     console.log(`qouted: ${qouted.trim()}`));
+
+
+
+// find the full tag
+const str = `
+<style>
+<div name="style">Hello<span>there</span></div>
+<styler>
+<style id="top-left" type="text/css" name="style">`;
+const regexp = /<style(?:>|\s([^>]*?)>)/g;
+[...str.matchAll(regexp)].forEach(info => {
+    const [_, styleContents = 'empty'] = info;
+    console.log(`index: ${info.index}, style: ${styleContents}`);
+});

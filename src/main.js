@@ -75,137 +75,13 @@ document.querySelector('#letters').addEventListener('click', () => {
     standChar = '';
 });
 
-// const hyphenedName = 'top-left-corner';
-// const camel = hyphenedName.replace(/-(\w+)/g, (match, word) => {
-//     return word[0].toUpperCase() + word.substring(1);
-// });
-// console.log(`upper-cased: ${camel}`);
-
-
-// const camelName = 'TopLeftCorner';
-// const hyphened = camelName.replace(/[A-Z]/g, (match, index) => {
-//     return  (index > 0 ? '-' : '') + match.toLowerCase();
-// });
-// console.log(`hyphened: ${hyphened}`);
-
-
-// const report = `The temperature outside is -21.3C. It is expected to raise to +2C by early afernoon.
-// Some claim it might be as high as 8.3c or even 10 or as low as 0C, but there is no evidence to back it up.`;
-
-// let toFahrenheit = str => str.replace(/([\-+])?(\d+(?:\.\d+)?)[cC]/g, (match, sign, number) => {
-//     // C = (F - 32) * 5/9
-//     // F = C * 9/5 + 32
-//     const asNum = +number * (sign === '-' ? -1 : 1);
-//     const fahr = asNum * 9/5 + 32;
-//     const negative = fahr < 0;
-//     const zero = fahr === 0;
-//     return (negative ? '-' : (zero ? '' : '+'))
-//         + Math.abs(fahr).toFixed(2)
-//         + 'F';
-// });
-// console.log(toFahrenheit(report));
-
-
-// const str = 'yeah, yeah,  YEAH,   Hello, yeah,   World,   yeah,  yeah, yeah, yeah, hi!,   yeah';
-// const result = str.replace(/(?:\s*,?\s*yeah\s*,?\s*)+/gi, (match, index, all) => {
-//     return (index === 0 || index + match.length === all.length) ? '' : ' ';
-// });
-// console.log(`result: "${result}"`);
-
-
-// const dateStr = 'Today is Tue 1:28 PM, December 17, 2019. So please be ready.';
-// /\b(\w{3})\s*(\d{1,2}:\d{2})\s*(am|pm),?\s*(\w*)\s*(\d{1,2},?\s*(\d{4}))\b/i
-
-
-// Fill in the regular expressions
-
-
-// function verify(regexp, yes, no) {
-//     // Ignore unfinished exercises
-//     if (regexp.source == "...") return;
-//     for (let str of yes) if (!regexp.test(str)) {
-//         console.log(`Failure to match '${str}'`);
-//     }
-//     for (let str of no) if (regexp.test(str)) {
-//         console.log(`Unexpected match for '${str}'`);
-//     }
-// }
-
-// // car and cat
-// verify(/\bca(?:t|r)s?\b/,
-//     ["my car", "bad cats", "noisy cars", "cat", "my cat"],
-//     ["camper", "high art", "cart", "Ben Carson", "carret", "acat", "wildcat", "flyingcar", "catso", "catos"]);
-
-// // pop and prop
-// verify(/\b(?:(?:prop(?:s)?)|pop)\b/,
-//     ["pop culture", "mad props", "pop", "object prop", "jiggy pop"],
-//     ["plop", "prrrop", "lollipop", "lollipops", "pops", "crops", "crop"]);
-
-// // ferret, ferry, and ferrari
-// verify(/\bferr(?:y|et|ari)\b/,
-//     ["ferret", "ferry", "ferrari"],
-//     ["ferrum", "transfer A"]);
-
-// // Any word ending in ious
-// verify(/\b(\w*)ious\b/,
-//     ["how delicious", "spacious room", "space very ious"],
-//     ["ruinous", "consciousness", "poisonous", "spaciousness", "iousx"]);
-
-// // A whitespace character followed by a period, comma, colon, or semicolon
-// verify(/\s[.,;:]/,
-//     ["bad punctuation .", "hey ,you!", "what is this mess ; he slipped", "result :fail", "He said . No!", ' . cannot do' ],
-//     ["escape the period", "Hello, there", "Hey,you", "start; stop", "result: pass"]);
-
-// // A word longer than six letters
-// verify(/\w{7,}/,
-//     ["hottentottententen"],
-//     ["no", "hotten totten tenten"]);
-
-// // A word without the letter e (or E)
-// verify(/\b[^e\s]+\b/i,
-//     ["red platypus", "wobbling nest"],
-//     ["earth bed", "learning ape", "BEET"]);
-
-
-
-// const text = "'I'm the cooks' chief,' he said, 'it's my job.'";
-// const reQuoted = text.replace(/'/g, (match, index, all) => {
-//     if (index === 0 || index === all.length - 1) {
-//         return '"';
-//     }
-//     const prev = all[index - 1];
-//     const next = all[index + 1];
-//     if (/\W/.test(prev) || (/\W/.test(next) && prev.toLowerCase() !== 's')) {
-//         return '"';
-//     }
-//     return '\'';
-// });
-// console.log(`re-quoted: ${reQuoted}`);
-
-
-
-// // Fill in this regular expression.
-// let number = /^[\-+]?(\d+(\.\d*)?|\.\d+)([eE][\-+]?\d+)?$/;
-
-// // Tests:
-// for (let str of ["1", "-1", "+15", "1.55", ".5", "5.", "1.3e2", "1E-4", "1e+12"]) {
-//     if (!number.test(str)) {
-//         console.log(`Failed to match '${str}'`);
-//     }
-// }
-// for (let str of ["1a", "+-1", "1.2.3", "1+1", "1e4.5", ".5.", "1f5", "."]) {
-//     if (number.test(str)) {
-//         console.log(`Incorrectly accepted '${str}'`);
-//     }
-// }
-
 
 // // password
 // // contain at least 8 symbols, 2 uppercase letters, 2 digits, 1 special symbol, (opt: at least 4 unique characters)
 // // example H31!C0pter
 
 // // (?=.*?[A-Z].*?[A-Z])
-// const passwordRules = /(?=.*?[A-Z].*?[A-Z])(?=.*?\d.*?\d)(?=.*?[!@#$%^&*(),.?])/;
+// const passwordRules = /(?=.*?[A-Z].*?[A-Z])(?=.*?\d.*?\d)(?=.*?[!@#$%^&*(),.?])(?=.{8,})/;
 // // Tests:
 // for (let str of ["H31!C0pter", "11AB!abc"]) {
 //     if (!passwordRules.test(str)) {
@@ -219,37 +95,133 @@ document.querySelector('#letters').addEventListener('click', () => {
 // }
 
 
-// // bb-tags https://javascript.info/regexp-alternation; b, url, quote; [tag]...[/tag]
-// const regexp = /\[(?<tag>b|url|quote)\](?<contents>[\s\S]*?)\[\/\1\]/ig;
 
-// const str = `Here is the url:
-// [url]
-//     [quote]piggy:[/quote]
-//     http://google.com
-// [/url]. You're [b]welcome[/b].`;
-// // const str = 'Hello there!';
-// [...str.matchAll(regexp)].forEach(({groups: {tag, contents}}) =>
-//     console.log(`tag: ${tag.trim()}, contents: ${contents.trim()}`));
+// const str = `store is .,closed!!`;
+// // const count = [...str.matchAll(/[aeiouy]/ig)].map(m => 1).reduce((prev, next) => prev + next);
+// let count = 0;
+// const regexp = /[aeiouy]/ig;
+// while (regexp.exec(str)) { count++; }
+// console.log(`number(vowels): ${count}`);
 
 
 
-// // find qoted strings
-// const str = 'Hi there. "Yeah, nice to meet you". "Do you know \\"your\\" neighbours," he asked.';
-// // const regexp = /(?<!\\)"([\s\S]*?)(?<!\\)"/g;
-// const regexp = /[^\\]"([\s\S]*?[^\\])"/g;
-// [...str.matchAll(regexp)].forEach(([_, qouted]) =>
-//     console.log(`qouted: ${qouted.trim()}`));
+// const str = '-1234567.13';
+// let [_, sign = '', int, float = ''] = /^([\-+]?)(\d+)(?:\.(\d+))?$/.exec(str) || [];
+// // if (int) {
+// //     int = [...int]
+// //         .reverse()
+// //         .join('')
+// //         .replace(/\d{3}(?=\d)/g, '$&,');
+// //     int = [...int].reverse().join('');
+// // }
+// if (int && int.length > 3) {
+//     const remainder = (int.length % 3) || 3;
+//     const [_, head, tail] = new RegExp(String.raw`(\d{${remainder}})(\d+)`).exec(int);
+//     int = head + tail.replace(/\d{3}/g, ',$&');
+// }
+// const commas = sign + int + (float ? ('.' + float) : '');
+// console.log(`num: "${commas}"`);
 
 
 
-// find the full tag
-const str = `
-<style>
-<div name="style">Hello<span>there</span></div>
-<styler>
-<style id="top-left" type="text/css" name="style">`;
-const regexp = /<style(?:>|\s([^>]*?)>)/g;
-[...str.matchAll(regexp)].forEach(info => {
-    const [_, styleContents = 'empty'] = info;
-    console.log(`index: ${info.index}, style: ${styleContents}`);
-});
+// // const str = 'http://google.com/help/me.html?age=20&sex=male%20ish#hash%3Ftag';
+// const str = 'http:/asd///?tfg';
+// // /^(\w+)\:(?:\/\/([\w\.\-]+))?([\w\/\.\-]+)?(?:\?([^#])+)?(?:#([\w\/\.\-]+))?$/
+// const chars = String.raw`([\w\.\-*()%+\=\&]+)`;
+// const charsSlash = String.raw`(\/[\w\.\-*()%+/]+)`;
+// const regexp =  new RegExp(String.raw`^${chars}\:(?://${chars})?${charsSlash}?(?:\?${chars})?(?:#${chars})?$`);
+// const [_, scheme = '', host = '', path = '', query = '', fragment = ''] = regexp.exec(str) || [];
+// console.log(`scheme: "${scheme}",\nhost: "${host}",\npath: "${path}",\nquery: "${query}",\nfragment: "${fragment}"`);
+
+
+
+// let regexp = /<\w+(\s*(?=(\w+))\2?(?:="[^"]+")?\s*)*>/g;
+// let str = '<> <a href="/"> <input type="radio" checked> <b>';
+// console.log( str.match(regexp) ); // '<a href="/">', '<input type="radio" checked>', '<b>'
+
+
+function strToInt(str) {
+    if (!str) {
+        return 0;
+    }
+    let [_, sign, digits] = /^\x20*([+-]?)0*(\d+)/.exec(str) || [];
+    if (!digits) {
+        return 0;
+    }
+    const [min, max] = [(-2) ** 31, 2 ** 31 - 1];
+    if (digits.length <= 10) { // Less than 10 Billion
+        let number = +digits;
+        if (sign === '-') {
+            number = -number;
+        }
+        if (number > min && number < max) {
+            return number;
+        }
+    }
+    return sign === '-' ? min : max;
+}
+
+
+
+function parseEquation(s) {
+    function operPriority(op) {
+        return (op === '+' || op === '-') ? 0 : 1;
+    }
+    
+    function applyOperator(numbers, operators) {
+        const [b, a] = [numbers.pop(), numbers.pop()];
+        const op = operators.pop();
+        let result = 0;
+        switch (op) {
+            case '-': result = a - b; break;
+            case '+': result = a + b; break;
+            case '/': result = Math.floor(a / b); break;
+            case '*': result = a * b; break;
+            default: result = 0;
+        }
+        numbers.push(result);
+    }
+
+    const matches = s.matchAll(/(\d+)|([-+/*])/g);
+    const numbers = [];
+    const operators = [];
+    for (let [_, number, operator] of matches) {
+        if (number) {
+            // if 1 * 2 - process at number => number
+            // if 1 + 2 * 3 - process at number => 1 + n
+            // if 1 + 2 - can't process at number here because the next operator could be * or /
+            numbers.push(+number);
+            if (operators.length === 2 || (operators.length === 1 && operPriority(operators[0]) === 1)) {
+                // must be 1 +- 2 */ 3 if op.len == 2 (by exclusion) OR 1 */ 3 if op.len == 1 && op == '*' or '/'
+                applyOperator(numbers, operators);
+            }
+        } else {
+            // if 1 + 2 + - process at operator => n +
+            if (operPriority(operator) === 0 && operators.length === 1 && operPriority(operators[0]) === 0) {
+                applyOperator(numbers, operators);
+            }
+            operators.push(operator);
+        }
+    }
+    if (operators.length) {
+        applyOperator(numbers, operators);
+    }
+    return numbers.pop();
+}
+
+for (let [input, expected] of [
+    ['3+2*2', 7],
+    [' 3/2 ', 1],
+    [' 3  -  2 ', 1],
+    ['3-2+5+1', 7],
+    ['3*2*5', 30],
+    ['3*2-1', 5],
+    ['3+2*4-5*2', 1],
+    [' 3+5 / 2 ', 5],
+    ['3+5-2/2+5/2*2', 11]
+]) {
+    const result = parseEquation(input);
+    if (result !== expected) {
+        console.log(`expected "${expected}" for input "${input}", but received: "${result}"`);
+    }
+}
